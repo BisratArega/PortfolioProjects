@@ -181,7 +181,7 @@ Select sub.date, Sum(sub.new_cases) TotalNewCases, Sum(sub.new_deaths) TotalNewD
 
 
 -- ***JOING TWO TABLES!!***************************************************************
--- WE'RE GOING TO START USING OUT COVIDVACCINATION TABLE ALONG WITH OUR COVIDEATHS TABLE 
+-- WE'RE GOING TO START USING OUT COVID VACCINATION TABLE ALONG WITH OUR COVID DEATHS TABLE 
 -- ************************************************************************************
 
 -- Just to View our table to start picking the columns that we'll be using
@@ -209,7 +209,9 @@ Select cd.continent, cd.location, cd.date, cd.population, cv.new_vaccinations
 	order by cv.new_vaccinations desc
 	--Order by 2,3
 
--- ****DOing a ROLLING COUNT On a New COLUMN**** Using Partition******************************************************** 
+
+
+-- ****Doing a ROLLING COUNT On a New COLUMN**** --> Using Partition******************************************************** 
 
 -- ***AS the column CV.Vaccinations keeps increasing the ROLLING COUNT Will Have a row thats ADDED UP ON a New COLUMN*** 
 -- **The Total Amount that'll desplay Is Determind by what we Partision On** 
@@ -247,6 +249,7 @@ Select cd.continent, cd.location, cd.date, cd.population, cv.new_vaccinations
 
 
 -- ***** Using a CTE ******
+
 -- Kinda like Subqureies for the Calculation to take place
 
 
@@ -268,6 +271,8 @@ Select  cd.continent, cd.location, cd.date, cast(cd.population as decimal(18,2))
 	)
 Select *, (RollingVaccinatedCount/population)*100 as VaccinatedPopulationPercentage 
 From PopvsVac
+
+
 
 -- ***** Using a Temprary Table*******************************************
 
@@ -303,25 +308,6 @@ From #PercentPopulationVaccinated
 
 
 
-
--- ***** Using Sub Query *****
--- This was my very own atempt at doing this. Figure out where the query is bad. 
-Select * from CovidVaccinations
-/*
-Select Sub.cd.Continent, Sub.cd.Location, Sub.cd.Date, Sub.cd.Population, Sub.cv.new_vaccinations, 
-		(sub.RollingVaccinatedCount/sub.cd.Population)*100 as TotalPeopleVaccinated 
-	From (cd.continent , cd.location , cd.date , cv.new_vaccinations
-			cast(cd.population as decimal(18,2)) as cd.population, 
-		,Sum(cast(cv.new_vaccinations as int)) over 
-		(Partition by cd.Location order by cd.location, cd.date) as RollingVaccinatedCount
-	from [dbo].[CovidDeaths] CD
-	Join [dbo].[CovidVaccinations] CV
-		on CD.Location = CV.Location
-		and CD.date = CV.date
-	where continent is not null) Sub
-	--order by cv.new_vaccinations desc
-	Order by 2,3
-*/
 
 
 
@@ -502,23 +488,6 @@ Select Nullif([continent], '') Continent,Location ,Year(date) as Date,
 	 Where Year(Date) = '2022'   
 	  group by Continent,Location, [Population], Date
 	   Order By RollingVacc Desc
-
-
--- Create a View For This 
-
-
-
-
-
--- Create a View For This 
-
-
-
--- Create a View For This 
-
--- Create a View For This 
-
--- Create a View For This 
 
 
 
