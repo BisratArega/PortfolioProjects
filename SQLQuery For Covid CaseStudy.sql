@@ -4,12 +4,7 @@
 Select * From [dbo].[CovidDeaths] 
 	Order by 3,4
 
-	/* 
--- This Query Is'nt being used, Just kept around incase it's needed to copy for Later 
 
-Select * From [dbo].[CovidVaccinations]
-	Order by 3,4
-	*/
 
 -- Had to Alter Table columns into INT becasue couldn't run query for calculation with Varchar datatype. 
 -- Data came in from FlatFile Import so data Type isn't on cosistant fromat, Used the Alter function to fix!!
