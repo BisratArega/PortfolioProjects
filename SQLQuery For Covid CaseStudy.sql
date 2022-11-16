@@ -325,7 +325,6 @@ Select Sub.cd.Continent, Sub.cd.Location, Sub.cd.Date, Sub.cd.Population, Sub.cv
 
 
 
---********************CREATING VIEWS TO STOr
 
 Select * from CovidDeaths
 
